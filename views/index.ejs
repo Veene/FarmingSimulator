@@ -1,38 +1,48 @@
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
-    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="style.css" >
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <title>Simple Chat App</title>
-  </head>
 
-  <body>
-    <header>
-      <h1>Super Chat</h1>
-    </header>
+<head>
+  <meta charset="utf-8">
+  <title>Chat | ChatApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="style.css"/>
+</head>
 
-    <section>
-      <div id="change_username">
-	<input id="username" type="text" />
-	<button id="send_username" type="button">Change username</button>
-      </div>
-    </section>
 
-    <section id="chatroom">
-      <section id="feedback"></section>
-    </section>
+<body class="chat">
+        
 
-    
+  <div class="chat__sidebar">
+    <h3 class="chat__sidebar h3">People</h3>
+    <div id="users">
+        <ul>
+            <%= users.forEach(function(user){ %>
+               <li><%= users.name %></li> 
+                <%= }) %>
+        </ul>
+    </div>
+  </div>
 
-    <section id="input_zone"> 
-      <input id="message" class="vertical-align" type="text" />
-      <button id="send_message" class="vertical-align" type="button">Send</button>
-    </section>
+  <div class="chat__main">
+    <ol id="render-message" class="chat__messages"></ol>
+    <div class="chat__footer">
+      <form id="message-form">
+      <input id="input" name="message" type="text" placeholder="Message" autofocus autocomplete="off" />
+      <button>Send</button>
+      </form>
+      <button id="send-location">Send Location</button>
+    </div>
+  </div>
 
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="chat.js"></script>
-    
-  </body>
+
+  <p>Welcome to the chat app</p>
+
+
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="chat.js"></script>
+</body>
+
 </html>

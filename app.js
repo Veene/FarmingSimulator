@@ -6,12 +6,44 @@ const app = express()
 var server = http.createServer(app);
 var io = socketIO(server);
 
+class Users {
+    constructor() {
+        this.users = [];
+    }
+    addUser(id, name, room) {
+        let user = {
+            id,
+            name,
+            room: room.toLowerCase()
+        }
+        this.users.push(user);
+        return user
+    }
+    removeUser(id) {
+        //return user that was removed
+        let removedUser = this.users.filter((user, i) => user.id === id)
+        this.users = this.users.filter((user) => user.id !== id)
+        return removedUser[0]
+    }
+    getUser(id) {
+        let getUser = this.users.filter((user, i) => user.id === id)
+        return getUser[0]
+    }
+    getUserList(room) {
+        let users = this.users.filter((user) =>  user.room === room);
+        let namesArray = users.map((user) => user.name);
+        return namesArray;
+    }
+}
+
+const users = new Users();
+
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('index', {users})
 })
 
 app.get('/game', (req, res) => {
