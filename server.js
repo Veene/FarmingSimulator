@@ -17,3 +17,37 @@ app.get('/', (req, res) => {
 server.listen(5000, () => {
     console.log('starting server on port 5000')
 })
+
+let players = {};
+io.on('connection', (socket) => {
+    //when a client joins, it emits a new players message, and this socket.on handler activates when it receives it.
+    socket.on('new player', () => {
+        console.log(`Player ${socket.id} has joined.`)
+        players[socket.id] = {
+            x: 300,
+            y: 300
+        }
+    })
+    socket.on('movement', (data) => {
+    
+            let player = players[socket.id] || {}
+            if(data.left) {
+                player.x -= 5
+            }
+            if(data.up) {
+                player.y -= 5
+            }
+            if(data.right) {
+                player.x += 5
+            }
+            if(data.down) {
+                player.y += 5
+            }
+        
+    })
+})
+
+setInterval(() => {
+    io.sockets.emit('state', players)
+}, 1000/60)
+
